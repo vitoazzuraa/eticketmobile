@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../core/dummy_data.dart';
 import '../../tickets/presentation/ticket_detail_screen.dart';
 import '../../tickets/presentation/create_ticket_screen.dart';
+import 'notification_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -10,9 +11,27 @@ class DashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Dashboard", style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF1877F2))),
+        title: const Text("Beranda", style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF1877F2))),
         actions: [
           IconButton(icon: const Icon(Icons.search), onPressed: () {}),
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.notifications),
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const NotificationScreen())),
+              ),
+              Positioned(
+                right: 12,
+                top: 12,
+                child: Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                  child: const Text('2', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
+                ),
+              )
+            ],
+          ),
           const SizedBox(width: 8),
         ],
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../dashboard/presentation/main_navigation.dart';
+import 'auth_screens.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -37,6 +38,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 24),
+                
                 ElevatedButton(
                   onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => MainNavigation())),
                   style: ElevatedButton.styleFrom(
@@ -47,6 +49,25 @@ class LoginScreen extends StatelessWidget {
                   ),
                   child: const Text("MASUK", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                 ),
+                
+                const SizedBox(height: 16),
+                
+                TextButton(
+                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ResetPasswordScreen())),
+                  child: const Text("Lupa Password?", style: TextStyle(color: Color(0xFF1877F2), fontWeight: FontWeight.bold)),
+                ),
+                
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Belum punya akun?"),
+                    TextButton(
+                      onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const RegisterScreen())),
+                      child: const Text("Daftar di sini", style: TextStyle(color: Color(0xFF1877F2), fontWeight: FontWeight.bold)),
+                    ),
+                  ],
+                ),
+
               ],
             ),
           ),
