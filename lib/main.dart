@@ -1,39 +1,91 @@
 import 'package:flutter/material.dart';
-import 'core/dummy_data.dart';
-import 'features/auth/presentation/splash_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'core/supabase_client.dart';
+import 'providers/theme_provider.dart';
+import 'screens/splash_screen.dart';
 
-void main() => runApp(const AdminApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initSupabase();
+  runApp(const ProviderScope(child: MyApp()));
+}
 
-class AdminApp extends StatelessWidget {
-  const AdminApp({Key? key}) : super(key: key);
+class MyApp extends ConsumerWidget {
+  const MyApp({super.key});
+
+  // Warna biru khas Facebook
+  static const facebookBlue = Color(0xFF1877F2);
 
   @override
-  Widget build(BuildContext context) {
-    return ValueListenableBuilder<ThemeMode>(
-      valueListenable: DummyData.themeNotifier,
-      builder: (_, mode, __) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          themeMode: mode,
-          theme: ThemeData(
-            useMaterial3: true,
-            scaffoldBackgroundColor: const Color(0xFFF0F2F5),
-            colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF1877F2)),
-            fontFamily: 'Roboto',
-            appBarTheme: const AppBarTheme(
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
-              elevation: 0,
-            ),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(themeModeProvider);
+
+    return MaterialApp(
+      title: 'E-Ticket Helpdesk',
+      debugShowCheckedModeBanner: false,
+      themeMode: themeMode,
+      theme: ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.light,
+        scaffoldBackgroundColor: const Color(0xFFF0F2F5), // abu muda khas Facebook
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: facebookBlue,
+          brightness: Brightness.light,
+          primary: facebookBlue,
+        ),
+        cardColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: facebookBlue,
+          foregroundColor: Colors.white,
+          elevation: 0,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: facebookBlue,
+            foregroundColor: Colors.white,
           ),
-          darkTheme: ThemeData(
-            useMaterial3: true,
-            brightness: Brightness.dark,
-            fontFamily: 'Roboto',
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(foregroundColor: facebookBlue),
+        ),
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          backgroundColor: facebookBlue,
+          foregroundColor: Colors.white,
+        ),
+        inputDecorationTheme: const InputDecorationTheme(
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: facebookBlue, width: 2),
           ),
-          home: const SplashScreen(),
-        );
-      },
+          border: OutlineInputBorder(),
+        ),
+      ),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: const Color(0xFF18191A), // gelap khas Facebook dark mode
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: facebookBlue,
+          brightness: Brightness.dark,
+          primary: facebookBlue,
+        ),
+        cardColor: const Color(0xFF242526),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: facebookBlue,
+          foregroundColor: Colors.white,
+          elevation: 0,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: facebookBlue,
+            foregroundColor: Colors.white,
+          ),
+        ),
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          backgroundColor: facebookBlue,
+          foregroundColor: Colors.white,
+        ),
+      ),
+      home: const SplashScreen(),
     );
   }
 }
